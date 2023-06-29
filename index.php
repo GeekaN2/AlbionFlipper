@@ -14,9 +14,26 @@
   <title>Flipper</title>
 </head>
 
+<?php 
+$servers = array(
+  (object) [
+    'url' => 'http://158.160.1.7:8056/',
+    'name' => 'Europe/West APC'
+  ],
+  (object) [
+    'url' => 'https://west.albion-online-data.com/',
+    'name' => 'Europe/West AOD'
+   ],
+   (object) [
+     'url' => 'https://east.albion-online-data.com/',
+     'name' => 'Asia/East AOD'
+   ]
+);  
+?>
+
 <body>
   <header>
-    <ul class="nav nav-tabs flex-column flex-sm-row border-sm-0-reverse">
+    <ul class="nav nav-tabs flex-column flex-sm-row border-sm-0-reverse d-flex align-items-center">
       <li class="nav-item">
         <a class="nav-link disabled" href="" tabindex="-1" aria-disabled="true" translate="no">Flipper <i
             class="far fa-heart text-danger"></i><span class="disabled float-right d-sm-none">Made with <i
@@ -36,6 +53,21 @@
       <li class="nav-item">
         <a class="nav-link border-sm-0-reverse" data-toggle="tab" href="#cart_tab" role="tab">Cart</a>
       </li>
+      <div class="dropdown show">
+        <a id="current-albionflipper-server" class="btn btn-primary btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Current server
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        <?php 
+          foreach($servers as $key => $server) {
+            ?>
+              <a class="dropdown-item" onclick="setCurrentServer('<?php echo $server->url ?>', '<?php echo $server->name ?>')"><?php echo $server->name ?></a>
+            <?php
+          }
+        ?>
+        </div>
+    </div>
       <li class="nav-item ml-auto d-none d-sm-block">
         <a class="nav-link disabled h6" data-toggle="tab" href="" role="tab">
           Made with <i class="fas fa-brain text-info"> </i>
@@ -486,6 +518,11 @@ echo(gmdate("d M Y G:i:s e", time()+3600*($timezone+date("I"))));
   <script type="text/javascript" src="js/bootstrap/bootstrap-sortable.js"></script>
   <script type="text/javascript" src="js/moment.js"></script>
   <script>
+    function setCurrentServer(url, name) {
+      localStorage.setItem('albionflipperServerURL', JSON.stringify({ url, name }));
+
+      updateCurrentServerName();
+    }
 
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
@@ -493,11 +530,21 @@ echo(gmdate("d M Y G:i:s e", time()+3600*($timezone+date("I"))));
       }, 'google_translate_element');
     }
 
+    function updateCurrentServerName() {
+      const currentServer = localStorage.getItem('albionflipperServerURL');
+      const { name, url } = JSON.parse(currentServer);
+
+      const currentServerElement = $('#current-albionflipper-server');
+      currentServerElement.text(name);
+    }
+
     $(document).ready(function () {
       $("[type=number]").change(function () {
         var newv = $(this).val();
         $(this).prev().val(newv);
       });
+
+      updateCurrentServerName();
     });
 
     $(document).ready(function () {

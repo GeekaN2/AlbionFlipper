@@ -574,7 +574,9 @@ function fetchData(type, cities, selected_items, quality, callback) {
   // Create a request variable and assign a new XMLHttpRequest object to it.
   var request = new XMLHttpRequest();
 
-  var url = "https://www.albionflipper.ml/";
+  const currentServer = localStorage.getItem('albionflipperServerURL');
+  const { url } = JSON.parse(currentServer);
+
   var view = "api/v2/stats/" + type + "/";
   var locations = [cities.join(","), "Black Market"]
   var link = url + view + selected_items.join(",") + "?locations=" + locations.join(",") + "&qualities=" + quality;
