@@ -532,6 +532,13 @@ echo(gmdate("d M Y G:i:s e", time()+3600*($timezone+date("I"))));
 
     function updateCurrentServerName() {
       const currentServer = localStorage.getItem('albionflipperServerURL');
+
+      if (!currentServer) {
+        setCurrentServer('http://158.160.1.7:8056/', 'Europe/West APC');
+
+        return;
+      }
+
       const { name, url } = JSON.parse(currentServer);
 
       const currentServerElement = $('#current-albionflipper-server');
