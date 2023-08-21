@@ -21,13 +21,17 @@ $servers = array(
     'name' => 'Europe/West APC'
   ],
   (object) [
+    'url' => 'http://158.160.1.7:28056/',
+    'name' => 'Asia/East APC'
+  ],
+  (object) [
     'url' => 'https://west.albion-online-data.com/',
     'name' => 'Europe/West AOD'
    ],
    (object) [
      'url' => 'https://east.albion-online-data.com/',
      'name' => 'Asia/East AOD'
-   ]
+   ],
 );  
 ?>
 
